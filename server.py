@@ -98,6 +98,23 @@ def client_thread(conn, ip, port, max_buffer_size=4096):
                 input_from_client = decode_text(input_from_client)
                 res = encode_text(user_name + ": " + input_from_client)
 
+                if input_from_client[0] == '@':
+                    name_to = input_from_client.split(' ')[0]
+                    name_to = name_to[1:len(name_to)]
+                    if name_to in table['name'].values:
+                        if name_to not in names_online:
+                            sub_res = encode_text(name_to + " not online.")
+                            sysl = sub_res.encode("utf8")
+                            conn.sendall(sysl)
+                        else:
+                            sub_res = encode_text(name_to + " online.")
+                            sysl = sub_res.encode("utf8")
+                            conn.sendall(sysl)
+                    else:
+                        sub_res = encode_text(name_to + " not in database.")
+                        sysl = sub_res.encode("utf8")
+                        conn.sendall(sysl)
+
                 vysl = res.encode("utf8")
                 for i in range(len(conns)):
                     if conns[i] != conn:
