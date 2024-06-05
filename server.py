@@ -5,6 +5,7 @@ from threading import Thread
 
 import pandas as pd
 
+
 table = pd.read_csv("names.csv")
 conns = []
 names_online = []
